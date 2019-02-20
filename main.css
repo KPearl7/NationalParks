@@ -1,0 +1,42 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 20px;
+    padding: 5px;
+}
+
+header {
+    margin: 10px;
+}
+
+form {
+    margin: 20px;
+    padding: 10px;
+
+}
+
+input {
+    display: block;
+    margin: 5px;
+}
+
+#js-state-name {
+    margin-bottom: 20px;
+}
+
+#js-error {
+    display: none;
+}
+
+.hidden {
+    display: none;
+}
+
+#results-list {
+    list-style-type: none;
+    padding: 5px;
+}
