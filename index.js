@@ -1,25 +1,32 @@
-'use strict'
+'use strict';
 
-const baseUrl = "http://api.gov/api/v1/parks"
+const BASE_URL = "http://api.nps.gov/api/v1/parks"
 
-const api ="cWi11y9RDx0AsAVxM5WfivxwaJiAwhJ3801wyEpU"
+const API ="cWi11y9RDx0AsAVxM5WfivxwaJiAwhJ3801wyEpU"
 
-function defineParams(params) {
- const queryItems = Object.keys(params)
+function createQueryString(params) {
+ const paramKeys = Object.keys(params)
+ const encodedParams = paramKeys.map(key => {
  const encodedKey = encodeURIComponent(key)
  const encodedValue = encodeURIComponent(params[key])
- .map(key => `${encodedKey}=${encodedValue}`)
- return queryItems.join('&');
+ return `${encodedKey}=${encodedValue}`
+ })
+ return encodedParams.join('&');
 }
 
 
-function showResults(responseJson)  {
-    console.log(responseJson);
-    $('#results-list').empty();
+function showResults(ressults, state)  {
+    console.log(results);
+    $('#parks').empty();
+
+    let parks = results.data
+    if (parks === undefined || parks.length == 0) {
+        $('#parks').append(`<p>No info for this state ${state}</p>`)
+    }  else {
  
     for(let i = 0; i < responseJson.length; i++) {
         let parksReturned = responseJson[i];
-        ('#results-list').append (`<li><h3>"${parksReturned.fullName}"></h3></li>
+        ('#parks').append (`<li><h3>"${parksReturned.fullName}"></h3></li>
         <p>"${parksReturned.description}"</p>
         <a href="${parksReturned.url}">Click here for Website</a>`)
         }
@@ -27,32 +34,33 @@ function showResults(responseJson)  {
 };
 
 
-function getParks(query, maxResults=25) {
+function getParks(state, maxResults=25) {
     const params = {
-        parkCode: acad,
-        api_key: api,
-        limit: 25,
-        stateCode: 'array'
+        api_key: API,
+        limit: maxResults,
+        stateCode: [state]
     };
-    const queryString = defineParams(params)
-    const url = baseURL + '?' + queryString;
+    const queryString = createQueryString(params)
+    const url = BASE_URL + '?' + queryString;
     console.log(url);
     
 fetch(url) 
 .then(response => (response.json())
-.then(responseJson => showResults(responseJson))
+.then(responseJson => showResults(responseJson, state))
 .catch(err => { 
     $('#js-error').text(`Parks not found`)
 })
 )};
 
 function clickSearch() {
-    $('#button').submit(event => {
+    $('#button').click(event => {
         event.preventDefault();
-    const state = $('#state-name').val();
+    const state = $('#js-state-name').val();
 
     getParks(state);
     console.log("getting park names now");
 
     });
 }
+
+(clickSearch);
