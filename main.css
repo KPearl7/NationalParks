@@ -19,9 +19,10 @@ form {
 
 }
 
-input {
+#js-state-name, #js-max-results {
     display: block;
-    margin: 5px;
+    width: 50px;
+    padding: 5px;
 }
 
 #js-state-name {
@@ -38,5 +39,14 @@ input {
 
 #parks {
     list-style-type: none;
+    padding: 5px;
+}
+
+ li {
+     padding: 5px;
+     margin-top: 10px;
+ }
+
+p, a {
     padding: 5px;
 }
